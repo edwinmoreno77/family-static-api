@@ -6,6 +6,13 @@ update this file to implement the following already declared methods:
 - update_member: Should update a member from the self._members list
 - get_member: Should return a member from the self._members list
 """
+
+# id: Int
+# + first_name: String
+# + last_name: String (Siempre Jackson)
+# + age: Int > 0
+# + lucky_numbers: List of integers
+
 from random import randint
 
 class FamilyStructure:
@@ -21,7 +28,8 @@ class FamilyStructure:
 
     def add_member(self, member):
         # fill this method and update the return
-        pass
+        self._members.append(member)
+        return self._members
 
     def delete_member(self, id):
         # fill this method and update the return
