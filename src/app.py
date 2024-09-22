@@ -53,17 +53,12 @@ def add_members():
 @app.route('/delete_member/<int:member_id>', methods=['DELETE'])
 def delete_member(member_id):
     member = jackson_family.delete_member(member_id)
-    if len(member) == 0:
+    if member == None:
         response = {
         "response": f"member by id {member_id} not exist",
         }
         return jsonify(response), 404
     else:
-        # members = jackson_family.delete_member(member_id)
-        # response = {
-        #     "deleted_member": member,
-        #     "family": members
-        # }
         response = {
             "done": True
         }

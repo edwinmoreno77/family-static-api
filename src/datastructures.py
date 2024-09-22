@@ -32,8 +32,13 @@ class FamilyStructure:
             return member
 
     def delete_member(self, id):
-        self._members = list(filter(lambda user:user["id"] != id, self._members))
-        return self._members
+
+        member = list(filter(lambda user:user["id"] == id, self._members))
+        if len(member) == 0:
+            return None
+        else:
+            self._members = list(filter(lambda user:user["id"] != id, self._members))
+            return True  
 
     def get_member(self, id):
         member = list(filter(lambda user: user["id"] == id, self._members))
