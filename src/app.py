@@ -49,6 +49,29 @@ def add_members():
 
     return jsonify(response_body), 200
 
+@app.route('/delete_member', methods=['DELETE'])
+def delete_member():
+    id = request.json
+    member = jackson_family.get_member(id)
+    members = jackson_family.delete_member(id)
+    response_body = {
+        "delete_member": member,
+        "family": members
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/get_member_by_id', methods=['GET'])
+def get_member_by_id():
+
+    id = request.json
+    member = jackson_family.get_member(id)
+    response_body = {
+        "member":member
+    }
+
+    return jsonify(response_body), 200
+
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3000))

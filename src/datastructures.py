@@ -28,16 +28,25 @@ class FamilyStructure:
 
     def add_member(self, member):
         # fill this method and update the return
+        member["last_name"] = self.last_name
         self._members.append(member)
         return self._members
 
     def delete_member(self, id):
         # fill this method and update the return
-        pass
+        def filter_by_id(user):
+            return user["id"] != id["id"]
+        
+        self._members = list(filter(filter_by_id, self._members))
+        return self._members
 
     def get_member(self, id):
         # fill this method and update the return
-        pass
+        def filter_by_id(user):
+            return user["id"] == id["id"]
+        
+        member = list(filter(filter_by_id, self._members))
+        return member
 
     # this method is done, it returns a list with all the family members
     def get_all_members(self):
