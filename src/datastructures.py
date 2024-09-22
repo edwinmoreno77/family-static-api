@@ -38,10 +38,6 @@ class FamilyStructure:
     def get_member(self, id):
         member = list(filter(lambda user: user["id"] == id, self._members))
         return member
-    
-    def get_member_by_first_name(self, first_name):
-        member = list(filter(lambda user: user["first_name"] == first_name, self._members))
-        return member
 
     def get_all_members(self):
         return self._members
