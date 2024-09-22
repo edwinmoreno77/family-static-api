@@ -30,47 +30,58 @@ def handle_hello():
 
     # this is how you can use the Family datastructure by calling its methods
     members = jackson_family.get_all_members()
-    response_body = {
-        "hello": "world",
-        "family": members
+    response = {
+        "family_number":len(members),
+        "family": members,
     }
 
-    return jsonify(response_body), 200
+    return jsonify(response), 200
 
 @app.route('/add_member', methods=['POST'])
 def add_members():
     new_member = request.json
-    new_member["id"] = jackson_family._generateId()
-    members = jackson_family.add_member(new_member)
-    response_body = {
-        "new_add": new_member,
-        "family": members
-    }
+    member = jackson_family.add_member(new_member)
+    if member != None:
+        members = jackson_family.get_all_members()
+        response = {
+            "new_added": member,
+            "family": members
+        }
 
-    return jsonify(response_body), 200
+        return jsonify(response), 200
+    else:
+        response = {
+        "response": f"member by first name {new_member['first_name']} exist",
+        }
+        return jsonify(response), 409
 
-@app.route('/delete_member', methods=['DELETE'])
-def delete_member():
-    id = request.json
-    member = jackson_family.get_member(id)
-    members = jackson_family.delete_member(id)
-    response_body = {
-        "delete_member": member,
-        "family": members
-    }
+@app.route('/delete_member/<int:member_id>', methods=['DELETE'])
+def delete_member(member_id):
+    member = jackson_family.get_member(member_id)
+    if len(member) == 0:
+        response = {
+        "response": f"member by id {member_id} not exist",
+        }
+        return jsonify(response), 404
+    else:
+        members = jackson_family.delete_member(member_id)
+        response = {
+            "deleted_member": member,
+            "family": members
+        }
+        return jsonify(response), 200
 
-    return jsonify(response_body), 200
+@app.route('/get_member_by_id/<int:member_id>', methods=['GET'])
+def get_member_by_id(member_id):
 
-@app.route('/get_member_by_id', methods=['GET'])
-def get_member_by_id():
-
-    id = request.json
-    member = jackson_family.get_member(id)
-    response_body = {
-        "member":member
-    }
-
-    return jsonify(response_body), 200
+    member = jackson_family.get_member(member_id)
+    if len(member) == 0:
+        response = {
+        "response": f"member by id {member_id} not exist",
+        }
+        return jsonify(response), 404
+    else:
+        return jsonify(member), 200
 
 # this only runs if `$ python src/app.py` is executed
 if __name__ == '__main__':
